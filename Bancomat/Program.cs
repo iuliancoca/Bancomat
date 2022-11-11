@@ -75,7 +75,8 @@ public class titularCard
             Console.WriteLine("1. Balanta");
             Console.WriteLine("2. Retragere");
             Console.WriteLine("3. Depozit");
-            Console.WriteLine("4. Iesire");
+            Console.WriteLine("4. Transfer");
+            Console.WriteLine("5. Iesire");
         }
 
         void balanta(titularCard utilizator)
@@ -114,11 +115,33 @@ public class titularCard
         titulariCard.Add(new titularCard("4847392847", 5214, "COCA", "MANUELA", 5024.01));
         titulariCard.Add(new titularCard("5654353454", 3437, "COCA", "ADELA", 6024.50));
 
+        void transfer(titularCard utilizator)
+        {
+            Console.WriteLine("Introduceti nr. cardului utilizatorului caruia ii veti transfera banii:");
+            String nrCardDestinatar = Console.ReadLine();
+            titularCard altUtilizator;
+            altUtilizator = titulariCard.Find(x => x.nrCard == nrCardDestinatar);
+            Console.WriteLine("Introduceti suma pe care o transferati catre " + altUtilizator.getNume() + " " + altUtilizator.getPrenume() + ".");
+            double transfer = Double.Parse(Console.ReadLine());
+            Console.WriteLine("Sunteti sigur ca transferati " + transfer + " catre " + altUtilizator.getNume() + " " + altUtilizator.getPrenume() + "?");
+            int optiuneTransfer = 0;
+            Console.WriteLine("Daca DA, apasa tasta 1. Daca NU, apasa pe oricare alta.");
+            optiuneTransfer = int.Parse(Console.ReadLine());
+            if (optiuneTransfer == 1)
+            {
+                Console.WriteLine("Transferul a fost realizat cu succes!");
+                utilizator.setBalanta(utilizator.getBalanta() - transfer);
+                altUtilizator.setBalanta(altUtilizator.getBalanta() + transfer);
+                Console.WriteLine("Noua ta balanta este: " + utilizator.getBalanta());
+                Console.WriteLine("Noua balanta a lui " + altUtilizator.getNume() + " " + altUtilizator.getPrenume() + " este: " + altUtilizator.getBalanta());
+            }
+        }
+
         Console.WriteLine("Bine ati venit la Bancomat!");
         Console.WriteLine("Introduceti cardul dvs.");
         String nrCardCurent = "";
         titularCard utilizator;
-
+        
         while (true)
         {
             try
@@ -181,11 +204,11 @@ public class titularCard
                 case 1: balanta(utilizator); break;
                 case 2: retragere(utilizator); break;
                 case 3: depozit(utilizator); break;
-                case 4: break;
+                case 4: transfer(utilizator); break;
+                case 5: break;
             }
         }
-        while (optiune != 4);
+        while (optiune != 5);
         Console.WriteLine("Multumim! O zi frumoasa!");
-
     }
 }
